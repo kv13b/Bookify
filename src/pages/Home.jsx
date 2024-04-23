@@ -13,7 +13,7 @@ const HomePage = () => {
     <div className="container mt-5">
       <CardGroup>
         {books.map((book) => {
-          return <BookCard key={book.id} {...book.data()} />;
+          return <BookCard key={book.id} id={book.id} {...book.data()} />;
         })}
       </CardGroup>
     </div>

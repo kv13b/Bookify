@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import { useFirebase } from "../context/Firebase";
 
 const BookCard = (props) => {
   const firebase = useFirebase();
+  const navigate = useNavigate();
   const [url, setURL] = useState(null);
   useEffect(() => {
     firebase.getImageURl(props.imageURL).then((url) => setURL(url));
@@ -18,7 +20,12 @@ const BookCard = (props) => {
           This book has a title{props.name} and this book is sold by{" "}
           {props.displayName} and price of this book is {props.price}
         </Card.Text>
-        <Button variant="primary">Check this out</Button>
+        <Button
+          onClick={(e) => navigate(`/book/views/${props.id}`)}
+          variant="primary"
+        >
+          view
+        </Button>
       </Card.Body>
     </Card>
   );
