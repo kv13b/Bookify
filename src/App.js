@@ -7,6 +7,8 @@ import MyNabBar from "./components/NavBar";
 import AddListingPage from "./pages/List";
 import HomePage from "./pages/Home";
 import BookDetail from "./pages/Detail";
+import ViewOrder from "./pages/ViewOrder";
+
 function App() {
   return (
     <div className="App">
@@ -16,7 +18,8 @@ function App() {
         <Route path="/log" element={<Loginpage />} />
         <Route path="/reg" element={<RegisterPage />} />
         <Route path="/list" element={<AddListingPage />} />
-        <Route path="/book/view/:BookID" element={<BookDetail />} />
+        <Route path="/book/view/:bookID" element={<BookDetail />} />
+        <Route path="/book/orders" element={<ViewOrder />} />
       </Routes>
     </div>
   );

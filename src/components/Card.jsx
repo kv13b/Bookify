@@ -21,7 +21,7 @@ const BookCard = (props) => {
           {props.displayName} and price of this book is {props.price}
         </Card.Text>
         <Button
-          onClick={(e) => navigate(`/book/views/${props.id}`)}
+          onClick={(e) => navigate(`/book/view/${props.id}`)}
           variant="primary"
         >
           view

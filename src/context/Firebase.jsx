@@ -8,7 +8,16 @@ import {
   signInWithPopup,
   onAuthStateChanged,
 } from "firebase/auth";
-import { getFirestore, collection, addDoc, getDocs } from "firebase/firestore";
+import {
+  getFirestore,
+  collection,
+  addDoc,
+  getDocs,
+  doc,
+  where,
+  query,
+  getDoc,
+} from "firebase/firestore";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
 const FirebaseContext = createContext(null);
@@ -66,8 +75,34 @@ export const FirebaseProvider = (props) => {
   const getImageURl = (path) => {
     return getDownloadURL(ref(storage, path));
   };
+  const getBookbyId = async (id) => {
+    const docRef = doc(firestore, "books", id);
+    const res = await getDoc(docRef);
+    return res;
+  };
   const SignInUser = (email, password) => {
     signInWithEmailAndPassword(firebaseauth, email, password);
+  };
+  const placeOrder = async (bookID, qty) => {
+    const collectionRef = collection(firestore, "books", bookID, "orders");
+    const res = await addDoc(collectionRef, {
+      userId: user.uid,
+      userEmail: user.email,
+      displayName: user.displayName,
+      photoURL: user.photoURL,
+      qty: Number(qty),
+    });
+    return res;
+  };
+  const fetchMyOrders = async () => {
+    if (user) {
+      const collectionRef = collection(firestore, "books");
+      const q = query(collectionRef, where("userID", "==", user.uid));
+      const res = await getDocs(q);
+      console.log(res);
+    } else {
+      console.log("User is not logged in");
+    }
   };
   const isLoggedIn = user ? true : false;
   return (
@@ -80,6 +115,9 @@ export const FirebaseProvider = (props) => {
         hadleCreatenewListing,
         listallBooks,
         getImageURl,
+        placeOrder,
+        fetchMyOrders,
+        getBookbyId,
       }}
     >
       {props.children}
