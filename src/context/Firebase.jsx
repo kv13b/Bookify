@@ -94,12 +94,12 @@ export const FirebaseProvider = (props) => {
     });
     return res;
   };
-  const fetchMyOrders = async () => {
+  const fetchMyOrders = async (userId) => {
     if (user) {
       const collectionRef = collection(firestore, "books");
-      const q = query(collectionRef, where("userID", "==", user.uid));
+      const q = query(collectionRef, where("userID", "==", userId));
       const res = await getDocs(q);
-      console.log(res);
+      return res;
     } else {
       console.log("User is not logged in");
     }
@@ -117,6 +117,7 @@ export const FirebaseProvider = (props) => {
         getImageURl,
         placeOrder,
         fetchMyOrders,
+        user,
         getBookbyId,
       }}
     >
